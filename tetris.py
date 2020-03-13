@@ -30,6 +30,10 @@ timeCheck = (pygame.time.get_ticks()) / 1000.0
 
 timeSinceLastMove = 0.0
 
+createdBlock = blocks.Parent()
+
+createdBlock.start()
+
 while 1:
     t = pygame.time.get_ticks()
     # deltaTime in seconds.
@@ -39,27 +43,26 @@ while 1:
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_DOWN:
-                pos = [pos[0], speed[1] + pos[1]]
+                createdBlock.position = [createdBlock.position[0],  createdBlock.position[1] + createdBlock.speed]
             if event.key == pygame.K_LEFT:
-                pos = [pos[0] - speed[0], pos[1]]
+                createdBlock.position = [createdBlock.position[0] - createdBlock.speed, createdBlock.position[1]]
             if event.key == pygame.K_RIGHT:
-                pos = [speed[0] + pos[0], pos[1]]
+                createdBlock.position = [createdBlock.position[0] + createdBlock.speed, createdBlock.position[1]]
 
         if event.type == pygame.QUIT:
             pygame.quit()
 
-# So that the blocks auto move when one second passes
-    if (t - timeSinceLastMove) / 1000.0 >= 1.0:
-        timeSinceLastMove = t
-        pos = [pos[0], speed[1] + pos[1]]
+    createdBlock.update(deltaTime)
 
 
     print(pos)
 
-    blockrect.center = (int(pos[0]), int(pos[1]))
+
     
     screen.fill(black)
-    screen.blit(block, blockrect)
+      
+    createdBlock.draw()
+    
     pygame.display.flip()
     
 

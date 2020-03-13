@@ -15,32 +15,39 @@ block = pygame.image.load("square.png")
 
 
 class Parent:
-    
-    t = timeSinceLastMove = 0.0
-    color = [blue, yellow, red, light_blue, green, orange]
-    filename = ["", "", "", ""]
-    blockrects = []
+
+    position = [0.0, 0.0]
+    speed = 32.0
+    color = (1.0, 0.0, 0.0)
+
     blocks = []
+    rects = []
+
+    timeSinceLastMove = 0.0
 
     def __init__(self):
-        self.position = [0.0]
+        self.position = [0.0, 0.0]
         self.speed = 32
         self.color = (1.0, 0.0, 0.0)
 
         self.blocks = []
         self.rects = []
 
+        self.timeSinceLastMove = 0.0
+
     def draw(self):
-        pygame.draw.rect(screen, self.color, self.blockrect)
+        for x in range(3):
+            pygame.draw.rect(screen, self.color, self.rects[x])
         
-    def update(self, deltaTime, timeSinceLastMove, t):
-        if (t - timeSinceLastMove) / 1000.0 >= 1.0:
+    def update(self, deltaTime):
+        if (pygame.time.get_ticks() - self.timeSinceLastMove) / 1000.0 >= 1.0:
+            self.timeSinceLastMove = pygame.time.get_ticks()
             self.position = [self.position[0], self.speed[1] + self.position[1]]
     
-    def start(self, filename, blocks, blockrects):
+    def start(self):
         for x in range(3):
-            blocks[x] = block
-            rects[x] = block.get_rect()
+            self.blocks[x] = block
+            self.rects[x] = block.get_rect()
 
     def end(self):
         pass
